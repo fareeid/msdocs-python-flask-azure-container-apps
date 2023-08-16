@@ -57,3 +57,18 @@ The steps to do this are covered more completely in the tutorial [Deploy a Pytho
 1. Configure continuous deployment.
 
 See the [create_resources.sh](./create_resources.sh) Bash script for automating the creation of these steps.
+
+My Steps
+az group create --name jazk-pythoncontainer-rg --location northeurope               					-----------Create reource group
+az acr create --resource-group jazk-pythoncontainer-rg --name jazkregistry --sku Basic --admin-enabled            ------------Create container registry
+az acr credential show --name jazkregistry --resource-group jazk-pythoncontainer-rg                               -----------View credentials created for registry admin
+az acr login --name jazkregistry										-----------Login to registry
+az acr build --registry jazkregistry --resource-group jazk-pythoncontainer-rg --image jazkpythoncontainer:latest .  ------- Build a container image
+If you are running the command in Azure Cloud Shell, use git clone to first pull the repo into the Cloud Shell environment first and change directory into the root of the project so that dot (".") is interpreted correctly.
+
+az acr repository list --name jazkregistry
+
+az postgres flexible-server create --resource-group jazk-pythoncontainer-rg --name <postgres-server-name> --location <location> --admin-user <admin-username> --admin-password <admin-password> --sku-name Standard_D2s_v3 --public-access 0.0.0.0 
+
+
+psql "host=c-jazkcosmospgcluster.uc3244cisuwfzk.postgres.cosmos.azure.com port=5432 dbname=postgres user=citus password=<Yourpasword> sslmode=require"
